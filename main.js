@@ -83,15 +83,20 @@
   };
 
   function parseArgs() {
+    var argsLen = arguments.length;
     var settings = {};
-    if (arguments.length === 1) {
+    if (argsLen === 1) {
       if (typeof arguments[0] === "string") {
         settings.url = arguments[0];
       } else {
         settings = arguments[0];
       }
-    } else if (arguments.length === 2) {
+    } else if (argsLen === 2) {
       settings = arguments[1];
+      settings.url = arguments[0];
+    } else if (argsLen === 3) {
+      settings = arguments[2];
+      settings.type = arguments[1];
       settings.url = arguments[0];
     }
     if (settings.success || settings.error) {

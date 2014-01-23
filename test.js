@@ -1,3 +1,7 @@
+Ember.RSVP.configure('onerror', function(error){
+  throw error;
+});
+
 module('ic-ajax');
 
 test('presence', function() {
@@ -43,6 +47,16 @@ asyncTest('url as only argument', function() {
 asyncTest('settings as only argument', function() {
   var server = fakeServer('GET', '/foo', {foo: 'bar'});
   ic.ajax.raw({url: '/foo'}).then(function(result) {
+    start();
+    deepEqual(result.response, {foo: 'bar'});
+  });
+  server.respond();
+  server.restore();
+});
+
+asyncTest('url, type, settings arguments', function(){
+  var server = fakeServer('POST', '/foo', {foo: 'bar'});
+  ic.ajax.raw('/foo', 'POST', {}).then(function(result){
     start();
     deepEqual(result.response, {foo: 'bar'});
   });
